@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎵 Cosy Music Suggester</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Three.js Canvas Background -->
+  <canvas id="bg-canvas"></canvas>
+  
+  <!-- CRT Scanline Effect -->
+  <div class="crt-overlay"></div>
+  
+  <!-- Pixelated Overlay -->
+  <div class="pixel-overlay"></div>
+  
+  <!-- Vignette Effect -->
+  <div class="vignette"></div>
+  
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Header with pixelated styling -->
+    <header class="header">
+      <div class="logo-container">
+        <span class="music-note floating-note">♪</span>
+        <h1 class="pixel-text glitch-text" data-text="Music Suggester">Music Suggester</h1>
+        <span class="music-note floating-note delay">♫</span>
+      </div>
+      <p class="subtitle typewriter">Discover your next cosy tune!</p>
+      <div class="preference-indicator">
+        <span class="toon-badge active">TOON 70%</span>
+        <span class="json-badge">JSON 30%</span>
+      </div>
+    </header>
+    
+    <!-- Filter Controls -->
+    <div class="controls">
+      <div class="control-group">
+        <label for="mood-select" class="pixel-label">
+          <span class="icon">🎭</span> Mood:
+        </label>
+        <select id="mood-select" class="pixel-select">
+          <option value="">Any Mood</option>
+        </select>
+      </div>
+      
+      <div class="control-group">
+        <label for="genre-select" class="pixel-label">
+          <span class="icon">🎸</span> Genre:
+        </label>
+        <select id="genre-select" class="pixel-select">
+          <option value="">Any Genre</option>
+        </select>
+      </div>
+      
+      <div class="control-group">
+        <label class="pixel-label">
+          <span class="icon">⭐</span> Preference:
+        </label>
+        <div class="toggle-container">
+          <button class="pref-toggle active" data-pref="toon">TOON</button>
+          <button class="pref-toggle" data-pref="json">JSON</button>
+        </div>
+      </div>
+      
+      <button id="suggest-btn" class="pixel-button">
+        <span class="btn-text">✨ Get Suggestions</span>
+        <span class="btn-sparkle"></span>
+      </button>
+    </div>
+    
+    <!-- Stats Display -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-icon">🎵</span>
+        <span class="stat-value" id="total-tracks">0</span>
+        <span class="stat-label">Tracks</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">🎨</span>
+        <span class="stat-value" id="toon-count">0</span>
+        <span class="stat-label">TOON</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">📄</span>
+        <span class="stat-value" id="json-count">0</span>
+        <span class="stat-label">JSON</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">👀</span>
+        <span class="stat-value" id="chibi-sightings">0</span>
+        <span class="stat-label">Chibi Sightings</span>
+      </div>
+    </div>
+    
+    <!-- Results Display -->
+    <div class="results-container">
+      <h2 class="section-title pixel-text">
+        <span class="title-decoration">◆</span>
+        Your Suggestions
+        <span class="title-decoration">◆</span>
+      </h2>
+      <div id="suggestions-list" class="suggestions-grid"></div>
+    </div>
+    
+    <!-- Loading Indicator -->
+    <div id="loading" class="loading hidden">
+      <div class="pixel-spinner-container">
+        <div class="pixel-spinner"></div>
+        <div class="spinner-ring"></div>
+        <div class="spinner-particles"></div>
+      </div>
+      <p class="loading-text">Finding perfect tunes...</p>
+      <div class="loading-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Made with <span class="heart">❤</span> and <span class="music">🎵</span> | Powered by Three.js + Anime.js</p>
+    </footer>
+  </div>
+  
+  <!-- Chibi Character Container - Left -->
+  <div id="chibi-left" class="chibi-character left-side hidden">
+    <div class="chibi-body">
+      <div class="chibi-head">
+        <div class="chibi-face">
+          <div class="eyes">
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+          </div>
+          <div class="mouth"></div>
+          <div class="blush left"></div>
+          <div class="blush right"></div>
+        </div>
+        <div class="chibi-hair"></div>
+        <div class="chibi-bow"></div>
+      </div>
+      <div class="chibi-torso"></div>
+      <div class="chibi-arms">
+        <div class="arm left"></div>
+        <div class="arm right"></div>
+      </div>
+      <div class="chibi-legs">
+        <div class="leg left"></div>
+        <div class="leg right"></div>
+      </div>
+    </div>
+    <div class="speech-bubble">
+      <p id="chibi-message-left"></p>
+      <div class="bubble-tail"></div>
+    </div>
+    <div class="emotion-effect"></div>
+  </div>
+  
+  <!-- Chibi Character Container - Right -->
+  <div id="chibi-right" class="chibi-character right-side hidden">
+    <div class="chibi-body">
+      <div class="chibi-head">
+        <div class="chibi-face">
+          <div class="eyes">
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+          </div>
+          <div class="mouth"></div>
+          <div class="blush left"></div>
+          <div class="blush right"></div>
+        </div>
+        <div class="chibi-hair"></div>
+        <div class="chibi-bow"></div>
+      </div>
+      <div class="chibi-torso"></div>
+      <div class="chibi-arms">
+        <div class="arm left"></div>
+        <div class="arm right"></div>
+      </div>
+      <div class="chibi-legs">
+        <div class="leg left"></div>
+        <div class="leg right"></div>
+      </div>
+    </div>
+    <div class="speech-bubble">
+      <p id="chibi-message-right"></p>
+      <div class="bubble-tail"></div>
+    </div>
+    <div class="emotion-effect"></div>
+  </div>
+  
+  <!-- Floating Particles Container -->
+  <div id="particles-container" class="particles-container"></div>
+  
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script src="https://unpkg.com/pretext@1.0.3/dist/pretext.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
