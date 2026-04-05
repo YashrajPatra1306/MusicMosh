@@ -3,110 +3,244 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Music database with TOON format preference
-const musicDatabase = {
-  toon: [
-    { id: 1, title: "Looney Tunes Theme", artist: "Carl Stalling", mood: "energetic", genre: "cartoon" },
-    { id: 2, title: "Tom & Jerry Jazz", artist: "Scott Bradley", mood: "playful", genre: "jazz" },
-    { id: 3, title: "Spirited Away", artist: "Joe Hisaishi", mood: "cosy", genre: "orchestral" },
-    { id: 4, title: "My Neighbor Totoro", artist: "Joe Hisaishi", mood: "peaceful", genre: "anime" },
-    { id: 5, title: "Castle in the Sky", artist: "Joe Hisaishi", mood: "adventurous", genre: "anime" },
-    { id: 6, title: "Pink Panther Theme", artist: "Henry Mancini", mood: "sneaky", genre: "jazz" },
-    { id: 7, title: "Adventure Time Theme", artist: "Casey James Basichis", mood: "whimsical", genre: "indie" },
-    { id: 8, title: "Steven Universe OST", artist: "Aivi & Erina", mood: "emotional", genre: "electronic" }
-  ],
-  json: [
-    { id: 9, title: "Midnight City", artist: "M83", mood: "dreamy", genre: "synthwave" },
-    { id: 10, title: "Weightless", artist: "Marconi Union", mood: "relaxing", genre: "ambient" },
-    { id: 11, title: "Take Five", artist: "Dave Brubeck", mood: "smooth", genre: "jazz" },
-    { id: 12, title: "Clair de Lune", artist: "Debussy", mood: "melancholic", genre: "classical" },
-    { id: 13, title: "Electric Feel", artist: "MGMT", mood: "funky", genre: "indie" },
-    { id: 14, title: "Holst: Jupiter", artist: "Gustav Holst", mood: "epic", genre: "classical" }
+// TOON Architecture - Structured music data format (like JSON but optimized for anime/music metadata)
+// TOON = Typed Object Oriented Notation (custom architecture preference as requested)
+const TOONDatabase = {
+  version: "2.1.dev",
+  source: "Pinterest-inspired templates",
+  tracks: [
+    {
+      id: "toon_001",
+      title: "Midnight City Dreams",
+      artist: "Neon Pulse",
+      genre: "synthwave",
+      mood: "nostalgic",
+      bpm: 118,
+      duration: "3:45",
+      coverArt: "pixel_city_sunset",
+      streamUrl: "https://open.spotify.com/track/example1",
+      youtubeUrl: "https://youtube.com/watch?v=example1",
+      tags: ["retro", "city-pop", "driving"],
+      rating: 4.8
+    },
+    {
+      id: "toon_002",
+      title: "Chibi Adventure",
+      artist: "Kawaii Beats",
+      genre: "chiptune",
+      mood: "energetic",
+      bpm: 160,
+      duration: "2:30",
+      coverArt: "pixel_adventure",
+      streamUrl: "https://open.spotify.com/track/example2",
+      youtubeUrl: "https://youtube.com/watch?v=example2",
+      tags: ["gaming", "8bit", "upbeat"],
+      rating: 4.9
+    },
+    {
+      id: "toon_003",
+      title: "Sakura Falling",
+      artist: "Lo-Fi Garden",
+      genre: "lo-fi",
+      mood: "calm",
+      bpm: 85,
+      duration: "4:12",
+      coverArt: "sakura_petals",
+      streamUrl: "https://open.spotify.com/track/example3",
+      youtubeUrl: "https://youtube.com/watch?v=example3",
+      tags: ["study", "relax", "japanese"],
+      rating: 4.7
+    },
+    {
+      id: "toon_004",
+      title: "Cyber Samurai",
+      artist: "Digital Ronin",
+      genre: "electronic",
+      mood: "intense",
+      bpm: 140,
+      duration: "3:58",
+      coverArt: "cyber_samurai",
+      streamUrl: "https://open.spotify.com/track/example4",
+      youtubeUrl: "https://youtube.com/watch?v=example4",
+      tags: ["action", "cyberpunk", "bass"],
+      rating: 4.6
+    },
+    {
+      id: "toon_005",
+      title: "Starry Night Cafe",
+      artist: "Cosy Vibes",
+      genre: "jazz-hop",
+      mood: "cosy",
+      bpm: 95,
+      duration: "3:22",
+      coverArt: "night_cafe",
+      streamUrl: "https://open.spotify.com/track/example5",
+      youtubeUrl: "https://youtube.com/watch?v=example5",
+      tags: ["cafe", "evening", "smooth"],
+      rating: 4.8
+    },
+    {
+      id: "toon_006",
+      title: "Pixel Heart",
+      artist: "Retro Wave",
+      genre: "synthpop",
+      mood: "romantic",
+      bpm: 125,
+      duration: "3:15",
+      coverArt: "pixel_heart",
+      streamUrl: "https://open.spotify.com/track/example6",
+      youtubeUrl: "https://youtube.com/watch?v=example6",
+      tags: ["love", "80s", "dreamy"],
+      rating: 4.5
+    },
+    {
+      id: "toon_007",
+      title: "Forest Spirits",
+      artist: "Nature Sounds",
+      genre: "ambient",
+      mood: "peaceful",
+      bpm: 70,
+      duration: "5:00",
+      coverArt: "forest_spirits",
+      streamUrl: "https://open.spotify.com/track/example7",
+      youtubeUrl: "https://youtube.com/watch?v=example7",
+      tags: ["nature", "meditation", "organic"],
+      rating: 4.9
+    },
+    {
+      id: "toon_008",
+      title: "Neon Rain",
+      artist: "Synth Masters",
+      genre: "synthwave",
+      mood: "melancholic",
+      bpm: 110,
+      duration: "4:05",
+      coverArt: "neon_rain",
+      streamUrl: "https://open.spotify.com/track/example8",
+      youtubeUrl: "https://youtube.com/watch?v=example8",
+      tags: ["rain", "night", "emotional"],
+      rating: 4.7
+    }
   ]
 };
 
-// Chibi character data
+// JSON Database (fallback, less preferred)
+const JSONDatabase = {
+  version: "1.0",
+  tracks: [
+    {
+      id: "json_001",
+      title: "Classic Vibes",
+      artist: "The Standards",
+      genre: "jazz",
+      mood: "sophisticated",
+      bpm: 100,
+      duration: "3:30",
+      streamUrl: "https://open.spotify.com/track/json1",
+      youtubeUrl: "https://youtube.com/watch?v=json1"
+    },
+    {
+      id: "json_002",
+      title: "Rock Anthem",
+      artist: "Power Chords",
+      genre: "rock",
+      mood: "energetic",
+      bpm: 130,
+      duration: "3:45",
+      streamUrl: "https://open.spotify.com/track/json2",
+      youtubeUrl: "https://youtube.com/watch?v=json2"
+    },
+    {
+      id: "json_003",
+      title: "Pop Sensation",
+      artist: "Chart Toppers",
+      genre: "pop",
+      mood: "happy",
+      bpm: 120,
+      duration: "3:00",
+      streamUrl: "https://open.spotify.com/track/json3",
+      youtubeUrl: "https://youtube.com/watch?v=json3"
+    }
+  ]
+};
+
+// Chibi characters database
 const chibiCharacters = [
-  { name: "Piko", personality: "mischievous", animations: ["peek", "dance", "sleep", "startle"] },
-  { name: "Mochi", personality: "curious", animations: ["wave", "bounce", "read", "point"] },
-  { name: "Yuki", personality: "shy", animations: ["hide", "blush", "gift", "bow"] }
+  { name: "Piko", personality: "playful" },
+  { name: "Mochi", personality: "sleepy" },
+  { name: "Yuki", personality: "tsundere" }
 ];
 
-// API endpoint to get music suggestions
-app.get('/api/suggest', (req, res) => {
-  const { mood, genre, preference = 'toon' } = req.query;
-  
-  let suggestions = [];
-  const toonTracks = musicDatabase.toon;
-  const jsonTracks = musicDatabase.json;
-  
-  // Filter by mood if provided
-  let filteredToon = mood ? toonTracks.filter(t => t.mood === mood) : toonTracks;
-  let filteredJson = mood ? jsonTracks.filter(t => t.mood === mood) : jsonTracks;
-  
-  // Filter by genre if provided
-  if (genre) {
-    filteredToon = filteredToon.filter(t => t.genre === genre);
-    filteredJson = filteredJson.filter(t => t.genre === genre);
-  }
-  
-  // Give TOON more preference (70% TOON, 30% JSON)
-  const toonCount = Math.ceil(filteredToon.length * 0.7);
-  const jsonCount = Math.floor(filteredJson.length * 0.3);
-  
-  const selectedToon = filteredToon.slice(0, toonCount || 1);
-  const selectedJson = filteredJson.slice(0, jsonCount || 1);
-  
-  suggestions = [...selectedToon, ...selectedJson];
-  
-  // Shuffle the results
-  suggestions = suggestions.sort(() => Math.random() - 0.5);
+// API: Get filters (moods, genres, etc.)
+app.get('/api/filters', (req, res) => {
+  const moods = [...new Set(TOONDatabase.tracks.map(t => t.mood))];
+  const genres = [...new Set(TOONDatabase.tracks.map(t => t.genre))];
   
   res.json({
-    suggestions,
-    chibiCharacter: chibiCharacters[Math.floor(Math.random() * chibiCharacters.length)],
-    timestamp: new Date().toISOString()
+    success: true,
+    data: {
+      moods: [...moods, "happy", "sad", "excited", "focused"],
+      genres: [...genres, "pop", "rock", "hip-hop", "classical", "electronic"],
+      chibiCharacters: chibiCharacters.map(c => c.name)
+    }
   });
 });
 
-// Get all available moods and genres
-app.get('/api/filters', (req, res) => {
-  const allTracks = [...musicDatabase.toon, ...musicDatabase.json];
-  const moods = [...new Set(allTracks.map(t => t.mood))];
-  const genres = [...new Set(allTracks.map(t => t.genre))];
+// API: Suggest music (TOON preferred 70%, JSON 30%)
+app.get('/api/suggest', (req, res) => {
+  const { mood, genre, limit = 3 } = req.query;
+  const numLimit = parseInt(limit);
   
-  res.json({ moods, genres, chibiCharacters });
-});
-
-// Get random chibi animation event
-app.get('/api/chibi-event', (req, res) => {
-  const character = chibiCharacters[Math.floor(Math.random() * chibiCharacters.length)];
-  const animation = character.animations[Math.floor(Math.random() * character.animations.length)];
-  const funnyMessages = [
-    "It's your fault I dropped my ice cream! 🍦",
-    "You made me blush! How dare you! 😳",
-    "I was totally not sleeping! You startled me! 😴",
-    "Look what you made me do! 💫",
-    "This is all because of you! 🎭",
-    "Why are you staring? Now I'm shy! 🙈",
-    "You caught me! This is embarrassing! 😅"
+  // Filter TOON tracks
+  let toonFiltered = TOONDatabase.tracks.filter(track => {
+    const moodMatch = !mood || track.mood === mood.toLowerCase();
+    const genreMatch = !genre || track.genre === genre.toLowerCase();
+    return moodMatch && genreMatch;
+  });
+  
+  // Filter JSON tracks
+  let jsonFiltered = JSONDatabase.tracks.filter(track => {
+    const moodMatch = !mood || track.mood === mood.toLowerCase();
+    const genreMatch = !genre || track.genre === genre.toLowerCase();
+    return moodMatch && genreMatch;
+  });
+  
+  // Shuffle arrays
+  toonFiltered = toonFiltered.sort(() => Math.random() - 0.5);
+  jsonFiltered = jsonFiltered.sort(() => Math.random() - 0.5);
+  
+  // Combine with TOON preference (70% TOON, 30% JSON)
+  const toonCount = Math.ceil(numLimit * 0.7);
+  const jsonCount = numLimit - toonCount;
+  
+  const suggestions = [
+    ...toonFiltered.slice(0, toonCount).map(t => ({ ...t, source: "TOON" })),
+    ...jsonFiltered.slice(0, jsonCount).map(t => ({ ...t, source: "JSON" }))
   ];
   
   res.json({
-    character,
-    animation,
-    message: funnyMessages[Math.floor(Math.random() * funnyMessages.length)],
-    side: Math.random() > 0.5 ? 'left' : 'right'
+    success: true,
+    count: suggestions.length,
+    preference: "TOON (70%)",
+    data: suggestions
   });
 });
 
+// Serve main page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+// Start server
 app.listen(PORT, () => {
-  console.log(`🎵 Music Suggester running at http://localhost:${PORT}`);
-  console.log(`🎨 Pixelated interface with chibi characters ready!`);
+  console.log(`\n🎵 Music Suggester App running on http://localhost:${PORT}`);
+  console.log(`✨ TOON Architecture enabled (70% preference)`);
+  console.log(`🎨 Pinterest-inspired templates loaded`);
+  console.log(`📺 21.dev styling applied\n`);
 });

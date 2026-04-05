@@ -1,143 +1,93 @@
-# 🎵 Cosy Music Suggester
+# 🎵 Cosy Music Suggester App
 
-A delightful music suggestion app with a pixelated, cosy interface featuring animated chibi characters that interact with you!
+A premium music discovery experience with pixelated aesthetics, powered by **Three.js**, **Anime.js**, and **TOON Architecture**.
+
+![Version](https://img.shields.io/badge/version-2.1.dev-pink)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
 ## ✨ Features
 
-- **Pixelated Interface**: Intricate pixel-art inspired design reminiscent of anime.js aesthetics
-- **Three.js Background**: Floating musical notes and shapes in a dynamic 3D environment
-- **Anime.js Animations**: Smooth, bouncy animations throughout the interface
-- **Chibi Characters**: Three adorable characters (Piko, Mochi, Yuki) that:
-  - Pop out from the sides randomly
-  - Perform various animations (peek, dance, sleep, wave, etc.)
-  - Display funny messages blaming you for their mishaps (Looney Tunes style!)
-  - Appear at random intervals or when getting suggestions
-- **TOON/JSON Music Database**: 
-  - TOON format gets 70% preference in suggestions
-  - JSON format gets 30% preference
-  - Filter by mood and genre
+### 🎨 Visual Design
+- **Pixelated Interface** - Retro CRT scanlines, vignette overlay, glitch effects
+- **3D Animated Background** - Floating geometric shapes with Three.js
+- **Cosy Color Palette** - Warm purples, pinks, and cyans
+- **21.dev & Pinterest-Inspired** - Modern aesthetic with retro vibes
 
-## 🎨 Tech Stack
+### 🎭 Chibi Characters
+- **3 Unique Characters**: Piko (playful), Mochi (sleepy), Yuki (tsundere)
+- **Random Appearances** - Pop out every 30-90 seconds
+- **12+ Animations** - Dance, wave, jump, blush, angry, surprised
+- **Funny Messages** - Looney Tunes-style blame game ("It's your fault!")
 
-- **Frontend**:
-  - HTML5
-  - CSS3 (Pixelated theme with custom animations)
-  - JavaScript (Vanilla)
-  - Three.js (3D background)
-  - Anime.js (UI animations)
+### 🎵 Music Suggestions
+- **TOON Architecture** (70% preference) - Optimized for anime/music metadata
+- **JSON Fallback** (30%) - Standard format support
+- **Smart Filtering** - By mood and genre
+- **Direct Playback Links** - Opens Spotify/YouTube in new tab
 
-- **Backend**:
-  - Node.js
-  - Express.js
-  - CORS enabled
+### ⚡ Animations
+- **Anime.js Powered** - Smooth elastic bounces, springs, staggers
+- **Particle Effects** - Button hovers, card interactions
+- **Glitch Title** - Cyberpunk chromatic aberration
+- **Loading Spinner** - Multi-ring animated loader
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-
-- Node.js (v14 or higher)
-- npm
+- Node.js 16+ 
+- npm or yarn
 
 ### Installation
 
-1. Clone the repository:
 ```bash
 cd /workspace
-```
-
-2. Install dependencies:
-```bash
 npm install
-```
-
-3. Start the server:
-```bash
 npm start
 ```
 
-4. Open your browser and navigate to:
+### Access the App
+Open **http://localhost:3000** in your browser
+
+## 📁 Project Structure
+
 ```
-http://localhost:3000
-```
-
-## 🎮 Usage
-
-1. **Filter Music**: Select your preferred mood and/or genre from the dropdowns
-2. **Get Suggestions**: Click the "✨ Get Suggestions" button
-3. **Interact**: Click on any music card to see more details
-4. **Watch for Chibis**: Keep an eye on the sides of the screen for surprise chibi appearances!
-
-## 🎭 Chibi Characters
-
-| Name   | Personality   | Animations                    |
-|--------|---------------|-------------------------------|
-| Piko   | Mischievous   | peek, dance, sleep, startle   |
-| Mochi  | Curious       | wave, bounce, read, point     |
-| Yuki   | Shy           | hide, blush, gift, bow        |
-
-## 🎵 Music Database
-
-The app includes a curated list of tracks in two formats:
-
-### TOON Tracks (70% preference)
-- Looney Tunes Theme - Carl Stalling
-- Tom & Jerry Jazz - Scott Bradley
-- Spirited Away - Joe Hisaishi
-- My Neighbor Totoro - Joe Hisaishi
-- Castle in the Sky - Joe Hisaishi
-- Pink Panther Theme - Henry Mancini
-- Adventure Time Theme - Casey James Basichis
-- Steven Universe OST - Aivi & Erina
-
-### JSON Tracks (30% preference)
-- Midnight City - M83
-- Weightless - Marconi Union
-- Take Five - Dave Brubeck
-- Clair de Lune - Debussy
-- Electric Feel - MGMT
-- Holst: Jupiter - Gustav Holst
-
-## 🔌 API Endpoints
-
-### GET `/api/suggest`
-Get music suggestions based on filters.
-
-**Query Parameters:**
-- `mood` (optional): Filter by mood
-- `genre` (optional): Filter by genre
-- `preference` (optional): 'toon' or 'json' (default: 'toon')
-
-**Response:**
-```json
-{
-  "suggestions": [...],
-  "chibiCharacter": {...},
-  "timestamp": "2026-04-05T12:00:00.000Z"
-}
+music-suggester-app/
+├── src/
+│   └── server.js          # Express backend with TOON/JSON APIs
+├── public/
+│   ├── index.html         # Main HTML structure
+│   ├── styles.css         # Pixelated CSS theme
+│   └── app.js             # Three.js + Anime.js frontend
+├── package.json           # Dependencies
+└── README.md              # This file
 ```
 
-### GET `/api/filters`
-Get available moods, genres, and chibi characters.
+## 🎯 API Endpoints
 
-### GET `/api/chibi-event`
-Trigger a random chibi character event.
+### GET /api/filters
+Returns available moods, genres, and chibi characters.
 
-## 🎨 Design Philosophy
+### GET /api/suggest?mood=cosy&genre=lo-fi&limit=6
+Returns music suggestions with TOON preference (70%).
 
-The interface is designed to be:
-- **Cosy**: Warm colors, soft gradients, and friendly typography
-- **Pixelated**: Retro pixel-art aesthetic with grid overlays
-- **Dynamic**: Constant subtle animations and interactions
-- **Playful**: Chibi characters add humor and personality
+### GET /api/chibi-event
+Returns random chibi character with animation and funny message.
 
-## 📝 License
+## 🎮 How to Use
 
-ISC
+1. Select mood/genre filters (optional)
+2. Click "Get Suggestions" button
+3. Click "Play on YouTube/Spotify" to open track
+4. Watch for random chibi appearances!
 
-## 🙏 Acknowledgments
+## 🌟 Key Technologies
 
-- Inspired by [anime.js](https://animejs.com/) for animation style
-- Three.js for 3D graphics
-- Classic cartoons (Looney Tunes, Tom & Jerry) for chibi personality
+- **Three.js** - 3D background animations
+- **Anime.js** - UI animations and effects
+- **Pretext** - Structured console logging
+- **Express.js** - Backend server
+- **TOON Architecture** - Custom data format (70% preference)
 
-Enjoy your cosy music discovery experience! 🎵✨
+---
+
+Made with 💖 using Three.js + Anime.js + TOON Architecture

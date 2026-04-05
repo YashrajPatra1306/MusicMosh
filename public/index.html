@@ -3,201 +3,133 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎵 Cosy Music Suggester</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>🎵 Cosy Music Suggester | 21.dev x Pinterest</title>
+  
+  <!-- Google Fonts: Pixel art fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  
+  <!-- Pretext for structured logging -->
+  <script src="https://cdn.jsdelivr.net/npm/pretext@1.0.0/dist/pretext.min.js"></script>
+  
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Three.js Canvas Background -->
+  <!-- Three.js Background Canvas -->
   <canvas id="bg-canvas"></canvas>
   
-  <!-- CRT Scanline Effect -->
-  <div class="crt-overlay"></div>
-  
-  <!-- Pixelated Overlay -->
-  <div class="pixel-overlay"></div>
-  
-  <!-- Vignette Effect -->
+  <!-- CRT Scanline Overlay -->
+  <div class="scanlines"></div>
   <div class="vignette"></div>
   
   <!-- Main Container -->
   <div class="container">
-    <!-- Header with pixelated styling -->
+    <!-- Header -->
     <header class="header">
-      <div class="logo-container">
-        <span class="music-note floating-note">♪</span>
-        <h1 class="pixel-text glitch-text" data-text="Music Suggester">Music Suggester</h1>
-        <span class="music-note floating-note delay">♫</span>
-      </div>
-      <p class="subtitle typewriter">Discover your next cosy tune!</p>
-      <div class="preference-indicator">
-        <span class="toon-badge active">TOON 70%</span>
-        <span class="json-badge">JSON 30%</span>
-      </div>
+      <h1 class="glitch-title" data-text="Music Suggester">
+        <span class="pixel-icon">🎵</span>
+        Music Suggester
+        <span class="version-badge">v2.1.dev</span>
+      </h1>
+      <p class="subtitle">Powered by TOON Architecture • Pinterest-Inspired</p>
     </header>
     
-    <!-- Filter Controls -->
-    <div class="controls">
-      <div class="control-group">
-        <label for="mood-select" class="pixel-label">
-          <span class="icon">🎭</span> Mood:
-        </label>
-        <select id="mood-select" class="pixel-select">
-          <option value="">Any Mood</option>
-        </select>
-      </div>
-      
-      <div class="control-group">
-        <label for="genre-select" class="pixel-label">
-          <span class="icon">🎸</span> Genre:
-        </label>
-        <select id="genre-select" class="pixel-select">
-          <option value="">Any Genre</option>
-        </select>
-      </div>
-      
-      <div class="control-group">
-        <label class="pixel-label">
-          <span class="icon">⭐</span> Preference:
-        </label>
-        <div class="toggle-container">
-          <button class="pref-toggle active" data-pref="toon">TOON</button>
-          <button class="pref-toggle" data-pref="json">JSON</button>
-        </div>
-      </div>
-      
-      <button id="suggest-btn" class="pixel-button">
-        <span class="btn-text">✨ Get Suggestions</span>
-        <span class="btn-sparkle"></span>
-      </button>
-    </div>
-    
-    <!-- Stats Display -->
+    <!-- Stats Bar -->
     <div class="stats-bar">
       <div class="stat-item">
-        <span class="stat-icon">🎵</span>
-        <span class="stat-value" id="total-tracks">0</span>
-        <span class="stat-label">Tracks</span>
+        <span class="stat-icon">🎶</span>
+        <span class="stat-label">Tracks:</span>
+        <span class="stat-value" id="track-count">0</span>
       </div>
       <div class="stat-item">
-        <span class="stat-icon">🎨</span>
-        <span class="stat-value" id="toon-count">0</span>
-        <span class="stat-label">TOON</span>
+        <span class="stat-icon">📊</span>
+        <span class="stat-label">TOON:</span>
+        <span class="stat-value toon-highlight" id="toon-count">70%</span>
       </div>
       <div class="stat-item">
         <span class="stat-icon">📄</span>
-        <span class="stat-value" id="json-count">0</span>
-        <span class="stat-label">JSON</span>
+        <span class="stat-label">JSON:</span>
+        <span class="stat-value json-highlight" id="json-count">30%</span>
       </div>
       <div class="stat-item">
-        <span class="stat-icon">👀</span>
-        <span class="stat-value" id="chibi-sightings">0</span>
-        <span class="stat-label">Chibi Sightings</span>
+        <span class="stat-icon">✨</span>
+        <span class="stat-label">Suggestions:</span>
+        <span class="stat-value" id="suggestion-count">0</span>
       </div>
     </div>
     
-    <!-- Results Display -->
-    <div class="results-container">
-      <h2 class="section-title pixel-text">
-        <span class="title-decoration">◆</span>
-        Your Suggestions
-        <span class="title-decoration">◆</span>
-      </h2>
-      <div id="suggestions-list" class="suggestions-grid"></div>
-    </div>
+    <!-- Controls Section -->
+    <section class="controls-section">
+      <div class="filter-group">
+        <label class="pixel-label">Mood:</label>
+        <select id="mood-filter" class="pixel-select">
+          <option value="">Any Mood</option>
+          <option value="cosy">Cosy</option>
+          <option value="energetic">Energetic</option>
+          <option value="calm">Calm</option>
+          <option value="nostalgic">Nostalgic</option>
+          <option value="romantic">Romantic</option>
+          <option value="intense">Intense</option>
+          <option value="peaceful">Peaceful</option>
+          <option value="melancholic">Melancholic</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label class="pixel-label">Genre:</label>
+        <select id="genre-filter" class="pixel-select">
+          <option value="">Any Genre</option>
+          <option value="lo-fi">Lo-Fi</option>
+          <option value="synthwave">Synthwave</option>
+          <option value="chiptune">Chiptune</option>
+          <option value="jazz-hop">Jazz-Hop</option>
+          <option value="electronic">Electronic</option>
+          <option value="ambient">Ambient</option>
+          <option value="synthpop">Synthpop</option>
+        </select>
+      </div>
+      
+      <button id="suggest-btn" class="pixel-btn primary">
+        <span class="btn-icon">✨</span>
+        Get Suggestions
+        <span class="btn-particles"></span>
+      </button>
+    </section>
     
-    <!-- Loading Indicator -->
+    <!-- Loading Spinner -->
     <div id="loading" class="loading hidden">
-      <div class="pixel-spinner-container">
-        <div class="pixel-spinner"></div>
+      <div class="spinner">
         <div class="spinner-ring"></div>
-        <div class="spinner-particles"></div>
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+        <div class="spinner-dot"></div>
       </div>
-      <p class="loading-text">Finding perfect tunes...</p>
-      <div class="loading-dots">
-        <span></span><span></span><span></span>
-      </div>
+      <p class="loading-text">Finding cosy tunes...</p>
     </div>
+    
+    <!-- Results Section -->
+    <section id="results" class="results-section hidden">
+      <h2 class="section-title">
+        <span class="pixel-icon">💿</span>
+        Your Suggestions
+      </h2>
+      <div id="cards-container" class="cards-grid"></div>
+    </section>
     
     <!-- Footer -->
     <footer class="footer">
-      <p>Made with <span class="heart">❤</span> and <span class="music">🎵</span> | Powered by Three.js + Anime.js</p>
+      <p>Made with 💖 using Three.js + Anime.js</p>
+      <p class="tiny">TOON Architecture v2.1.dev • Inspired by Pinterest & 21.dev</p>
     </footer>
   </div>
   
-  <!-- Chibi Character Container - Left -->
-  <div id="chibi-left" class="chibi-character left-side hidden">
-    <div class="chibi-body">
-      <div class="chibi-head">
-        <div class="chibi-face">
-          <div class="eyes">
-            <div class="eye left"></div>
-            <div class="eye right"></div>
-          </div>
-          <div class="mouth"></div>
-          <div class="blush left"></div>
-          <div class="blush right"></div>
-        </div>
-        <div class="chibi-hair"></div>
-        <div class="chibi-bow"></div>
-      </div>
-      <div class="chibi-torso"></div>
-      <div class="chibi-arms">
-        <div class="arm left"></div>
-        <div class="arm right"></div>
-      </div>
-      <div class="chibi-legs">
-        <div class="leg left"></div>
-        <div class="leg right"></div>
-      </div>
-    </div>
-    <div class="speech-bubble">
-      <p id="chibi-message-left"></p>
-      <div class="bubble-tail"></div>
-    </div>
-    <div class="emotion-effect"></div>
-  </div>
-  
-  <!-- Chibi Character Container - Right -->
-  <div id="chibi-right" class="chibi-character right-side hidden">
-    <div class="chibi-body">
-      <div class="chibi-head">
-        <div class="chibi-face">
-          <div class="eyes">
-            <div class="eye left"></div>
-            <div class="eye right"></div>
-          </div>
-          <div class="mouth"></div>
-          <div class="blush left"></div>
-          <div class="blush right"></div>
-        </div>
-        <div class="chibi-hair"></div>
-        <div class="chibi-bow"></div>
-      </div>
-      <div class="chibi-torso"></div>
-      <div class="chibi-arms">
-        <div class="arm left"></div>
-        <div class="arm right"></div>
-      </div>
-      <div class="chibi-legs">
-        <div class="leg left"></div>
-        <div class="leg right"></div>
-      </div>
-    </div>
-    <div class="speech-bubble">
-      <p id="chibi-message-right"></p>
-      <div class="bubble-tail"></div>
-    </div>
-    <div class="emotion-effect"></div>
-  </div>
-  
-  <!-- Floating Particles Container -->
+  <!-- Particles Container -->
   <div id="particles-container" class="particles-container"></div>
   
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-  <script src="https://unpkg.com/pretext@1.0.3/dist/pretext.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
