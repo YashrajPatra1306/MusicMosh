@@ -1,24 +1,14 @@
 {
-  "name": "music-suggester",
+  "name": "music-mosh",
   "version": "1.0.0",
+  "description": "Intricate pixelated music suggester with Three.js and Anime.js",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "node src/server.js"
+    "start": "node src/server.js"
   },
-  "keywords": [
-    "music",
-    "suggester",
-    "anime",
-    "threejs"
-  ],
-  "author": "",
-  "license": "ISC",
-  "description": "A cosy music suggester app with pixelated interface and chibi characters",
+  "license": "Apache-2.0",
   "dependencies": {
-    "animejs": "^4.3.6",
-    "cors": "^2.8.6",
-    "express": "^5.2.1",
-    "three": "^0.183.2"
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
   }
 }

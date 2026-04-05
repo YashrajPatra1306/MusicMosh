@@ -1,93 +1,49 @@
-# 🎵 Cosy Music Suggester App
+# Music Mosh
 
-A premium music discovery experience with pixelated aesthetics, powered by **Three.js**, **Anime.js**, and **TOON Architecture**.
+Intricate pixelated music suggester built with Three.js and Anime.js.
 
-![Version](https://img.shields.io/badge/version-2.1.dev-pink)
-![License](https://img.shields.io/badge/license-MIT-blue)
+## Features
 
-## ✨ Features
+- **TOON Architecture**: Hierarchical Tree Of Object Notation for structured music data (preferred)
+- **JSON Support**: Fallback flat JSON architecture
+- **Three.js**: 3D animated background with floating geometric shapes
+- **Anime.js**: Smooth UI animations, particle effects, and transitions
+- **Pixelated Aesthetic**: CRT scanlines, vignette, glitch effects
+- **Working Play Links**: Direct links to YouTube/Spotify for immediate playback
+- **Responsive Design**: Mobile-friendly interface
 
-### 🎨 Visual Design
-- **Pixelated Interface** - Retro CRT scanlines, vignette overlay, glitch effects
-- **3D Animated Background** - Floating geometric shapes with Three.js
-- **Cosy Color Palette** - Warm purples, pinks, and cyans
-- **21.dev & Pinterest-Inspired** - Modern aesthetic with retro vibes
+## Tech Stack
 
-### 🎭 Chibi Characters
-- **3 Unique Characters**: Piko (playful), Mochi (sleepy), Yuki (tsundere)
-- **Random Appearances** - Pop out every 30-90 seconds
-- **12+ Animations** - Dance, wave, jump, blush, angry, surprised
-- **Funny Messages** - Looney Tunes-style blame game ("It's your fault!")
+- Frontend: HTML5, CSS3, JavaScript
+- Libraries: Three.js r128, Anime.js 3.2.1
+- Backend: Node.js, Express.js
+- Fonts: Press Start 2P, VT323 (Google Fonts)
 
-### 🎵 Music Suggestions
-- **TOON Architecture** (70% preference) - Optimized for anime/music metadata
-- **JSON Fallback** (30%) - Standard format support
-- **Smart Filtering** - By mood and genre
-- **Direct Playback Links** - Opens Spotify/YouTube in new tab
-
-### ⚡ Animations
-- **Anime.js Powered** - Smooth elastic bounces, springs, staggers
-- **Particle Effects** - Button hovers, card interactions
-- **Glitch Title** - Cyberpunk chromatic aberration
-- **Loading Spinner** - Multi-ring animated loader
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Node.js 16+ 
-- npm or yarn
-
-### Installation
+## Installation
 
 ```bash
-cd /workspace
 npm install
 npm start
 ```
 
-### Access the App
-Open **http://localhost:3000** in your browser
+## Usage
 
-## 📁 Project Structure
+Open http://localhost:3000 in your browser.
 
-```
-music-suggester-app/
-├── src/
-│   └── server.js          # Express backend with TOON/JSON APIs
-├── public/
-│   ├── index.html         # Main HTML structure
-│   ├── styles.css         # Pixelated CSS theme
-│   └── app.js             # Three.js + Anime.js frontend
-├── package.json           # Dependencies
-└── README.md              # This file
-```
+1. Select mood and genre filters (optional)
+2. Choose architecture: TOON (default) or JSON
+3. Click "FIND TRACK" to get a suggestion
+4. Click "PLAY NOW" to open the track on YouTube/Spotify
 
-## 🎯 API Endpoints
+## API Endpoints
 
-### GET /api/filters
-Returns available moods, genres, and chibi characters.
+- `GET /api/suggest?mood=&genre=&format=` - Get music suggestion
+- `GET /api/filters` - Get available moods and genres
 
-### GET /api/suggest?mood=cosy&genre=lo-fi&limit=6
-Returns music suggestions with TOON preference (70%).
+## License
 
-### GET /api/chibi-event
-Returns random chibi character with animation and funny message.
+Apache License 2.0
 
-## 🎮 How to Use
+## Credits
 
-1. Select mood/genre filters (optional)
-2. Click "Get Suggestions" button
-3. Click "Play on YouTube/Spotify" to open track
-4. Watch for random chibi appearances!
-
-## 🌟 Key Technologies
-
-- **Three.js** - 3D background animations
-- **Anime.js** - UI animations and effects
-- **Pretext** - Structured console logging
-- **Express.js** - Backend server
-- **TOON Architecture** - Custom data format (70% preference)
-
----
-
-Made with 💖 using Three.js + Anime.js + TOON Architecture
+Design inspired by 21.dev and Pinterest aesthetics.

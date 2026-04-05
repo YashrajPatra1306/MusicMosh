@@ -3,244 +3,158 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 app.use(cors());
-app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
-// TOON Architecture - Structured music data format (like JSON but optimized for anime/music metadata)
-// TOON = Typed Object Oriented Notation (custom architecture preference as requested)
-const TOONDatabase = {
-  version: "2.1.dev",
-  source: "Pinterest-inspired templates",
-  tracks: [
-    {
-      id: "toon_001",
-      title: "Midnight City Dreams",
-      artist: "Neon Pulse",
-      genre: "synthwave",
-      mood: "nostalgic",
-      bpm: 118,
-      duration: "3:45",
-      coverArt: "pixel_city_sunset",
-      streamUrl: "https://open.spotify.com/track/example1",
-      youtubeUrl: "https://youtube.com/watch?v=example1",
-      tags: ["retro", "city-pop", "driving"],
-      rating: 4.8
-    },
-    {
-      id: "toon_002",
-      title: "Chibi Adventure",
-      artist: "Kawaii Beats",
-      genre: "chiptune",
-      mood: "energetic",
-      bpm: 160,
-      duration: "2:30",
-      coverArt: "pixel_adventure",
-      streamUrl: "https://open.spotify.com/track/example2",
-      youtubeUrl: "https://youtube.com/watch?v=example2",
-      tags: ["gaming", "8bit", "upbeat"],
-      rating: 4.9
-    },
-    {
-      id: "toon_003",
-      title: "Sakura Falling",
-      artist: "Lo-Fi Garden",
-      genre: "lo-fi",
-      mood: "calm",
-      bpm: 85,
-      duration: "4:12",
-      coverArt: "sakura_petals",
-      streamUrl: "https://open.spotify.com/track/example3",
-      youtubeUrl: "https://youtube.com/watch?v=example3",
-      tags: ["study", "relax", "japanese"],
-      rating: 4.7
-    },
-    {
-      id: "toon_004",
-      title: "Cyber Samurai",
-      artist: "Digital Ronin",
-      genre: "electronic",
-      mood: "intense",
-      bpm: 140,
-      duration: "3:58",
-      coverArt: "cyber_samurai",
-      streamUrl: "https://open.spotify.com/track/example4",
-      youtubeUrl: "https://youtube.com/watch?v=example4",
-      tags: ["action", "cyberpunk", "bass"],
-      rating: 4.6
-    },
-    {
-      id: "toon_005",
-      title: "Starry Night Cafe",
-      artist: "Cosy Vibes",
-      genre: "jazz-hop",
-      mood: "cosy",
-      bpm: 95,
-      duration: "3:22",
-      coverArt: "night_cafe",
-      streamUrl: "https://open.spotify.com/track/example5",
-      youtubeUrl: "https://youtube.com/watch?v=example5",
-      tags: ["cafe", "evening", "smooth"],
-      rating: 4.8
-    },
-    {
-      id: "toon_006",
-      title: "Pixel Heart",
-      artist: "Retro Wave",
-      genre: "synthpop",
-      mood: "romantic",
-      bpm: 125,
-      duration: "3:15",
-      coverArt: "pixel_heart",
-      streamUrl: "https://open.spotify.com/track/example6",
-      youtubeUrl: "https://youtube.com/watch?v=example6",
-      tags: ["love", "80s", "dreamy"],
-      rating: 4.5
-    },
-    {
-      id: "toon_007",
-      title: "Forest Spirits",
-      artist: "Nature Sounds",
-      genre: "ambient",
-      mood: "peaceful",
-      bpm: 70,
-      duration: "5:00",
-      coverArt: "forest_spirits",
-      streamUrl: "https://open.spotify.com/track/example7",
-      youtubeUrl: "https://youtube.com/watch?v=example7",
-      tags: ["nature", "meditation", "organic"],
-      rating: 4.9
-    },
-    {
-      id: "toon_008",
-      title: "Neon Rain",
-      artist: "Synth Masters",
-      genre: "synthwave",
-      mood: "melancholic",
-      bpm: 110,
-      duration: "4:05",
-      coverArt: "neon_rain",
-      streamUrl: "https://open.spotify.com/track/example8",
-      youtubeUrl: "https://youtube.com/watch?v=example8",
-      tags: ["rain", "night", "emotional"],
-      rating: 4.7
-    }
-  ]
+// TOON Architecture Data Structure
+// TOON (Tree Of Object Notation) allows nested hierarchical data with inheritance
+const musicDatabase = {
+  type: 'TOON',
+  version: '1.0',
+  root: {
+    id: 'root',
+    children: [
+      {
+        id: 'electronic',
+        type: 'genre',
+        properties: { name: 'Electronic', vibe: 'energetic' },
+        children: [
+          {
+            id: 'synthwave',
+            type: 'subgenre',
+            properties: { name: 'Synthwave', mood: 'retro' },
+            tracks: [
+              { id: 't1', title: 'Nightcall', artist: 'Kavinsky', url: 'https://www.youtube.com/watch?v=MV_3DWD-B5c', source: 'TOON' },
+              { id: 't2', title: 'Resonance', artist: 'Home', url: 'https://www.youtube.com/watch?v=6ZwpOKvTJds', source: 'TOON' }
+            ]
+          },
+          {
+            id: 'lofi',
+            type: 'subgenre',
+            properties: { name: 'Lo-Fi', mood: 'chill' },
+            tracks: [
+              { id: 't3', title: 'Lofi Study', artist: 'ChilledCow', url: 'https://www.youtube.com/watch?v=jfKfPfyJRdk', source: 'TOON' },
+              { id: 't4', title: 'Midnight City', artist: 'M83', url: 'https://www.youtube.com/watch?v=dX3k_QDnzHE', source: 'TOON' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'rock',
+        type: 'genre',
+        properties: { name: 'Rock', vibe: 'intense' },
+        children: [
+          {
+            id: 'indie',
+            type: 'subgenre',
+            properties: { name: 'Indie Rock', mood: 'melancholic' },
+            tracks: [
+              { id: 't5', title: 'Do I Wanna Know?', artist: 'Arctic Monkeys', url: 'https://www.youtube.com/watch?v=bpOSxM0rNPM', source: 'TOON' },
+              { id: 't6', title: 'Fluorescent Adolescent', artist: 'Arctic Monkeys', url: 'https://www.youtube.com/watch?v=ma9I9VBKPiw', source: 'TOON' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'ambient',
+        type: 'genre',
+        properties: { name: 'Ambient', vibe: 'cosy' },
+        children: [
+          {
+            id: 'space',
+            type: 'subgenre',
+            properties: { name: 'Space Ambient', mood: 'ethereal' },
+            tracks: [
+              { id: 't7', title: 'Arrival of the Birds', artist: 'The Cinematic Orchestra', url: 'https://www.youtube.com/watch?v=KpFOm9nZdOg', source: 'TOON' },
+              { id: 't8', title: 'Experience', artist: 'Ludovico Einaudi', url: 'https://www.youtube.com/watch?v=7lq7YTTcdhE', source: 'TOON' }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 };
 
-// JSON Database (fallback, less preferred)
-const JSONDatabase = {
-  version: "1.0",
-  tracks: [
-    {
-      id: "json_001",
-      title: "Classic Vibes",
-      artist: "The Standards",
-      genre: "jazz",
-      mood: "sophisticated",
-      bpm: 100,
-      duration: "3:30",
-      streamUrl: "https://open.spotify.com/track/json1",
-      youtubeUrl: "https://youtube.com/watch?v=json1"
-    },
-    {
-      id: "json_002",
-      title: "Rock Anthem",
-      artist: "Power Chords",
-      genre: "rock",
-      mood: "energetic",
-      bpm: 130,
-      duration: "3:45",
-      streamUrl: "https://open.spotify.com/track/json2",
-      youtubeUrl: "https://youtube.com/watch?v=json2"
-    },
-    {
-      id: "json_003",
-      title: "Pop Sensation",
-      artist: "Chart Toppers",
-      genre: "pop",
-      mood: "happy",
-      bpm: 120,
-      duration: "3:00",
-      streamUrl: "https://open.spotify.com/track/json3",
-      youtubeUrl: "https://youtube.com/watch?v=json3"
-    }
-  ]
-};
-
-// Chibi characters database
-const chibiCharacters = [
-  { name: "Piko", personality: "playful" },
-  { name: "Mochi", personality: "sleepy" },
-  { name: "Yuki", personality: "tsundere" }
+// JSON Fallback Data
+const jsonDatabase = [
+  { id: 'j1', title: 'Blinding Lights', artist: 'The Weeknd', genre: 'synthpop', mood: 'energetic', url: 'https://www.youtube.com/watch?v=4NRXx6U8ABQ', source: 'JSON' },
+  { id: 'j2', title: 'Levitating', artist: 'Dua Lipa', genre: 'disco', mood: 'happy', url: 'https://www.youtube.com/watch?v=TUVcZfQe-Kw', source: 'JSON' },
+  { id: 'j3', title: 'Heat Waves', artist: 'Glass Animals', genre: 'indie', mood: 'melancholic', url: 'https://www.youtube.com/watch?v=mRD0-GxqHVo', source: 'JSON' },
+  { id: 'j4', title: 'Stay', artist: 'The Kid LAROI', genre: 'pop', mood: 'sad', url: 'https://www.youtube.com/watch?v=kTJczUoc26U', source: 'JSON' }
 ];
 
-// API: Get filters (moods, genres, etc.)
-app.get('/api/filters', (req, res) => {
-  const moods = [...new Set(TOONDatabase.tracks.map(t => t.mood))];
-  const genres = [...new Set(TOONDatabase.tracks.map(t => t.genre))];
+// Helper to traverse TOON and extract tracks
+function getTracksFromTOON(node, filters = {}) {
+  let tracks = [];
   
-  res.json({
-    success: true,
-    data: {
-      moods: [...moods, "happy", "sad", "excited", "focused"],
-      genres: [...genres, "pop", "rock", "hip-hop", "classical", "electronic"],
-      chibiCharacters: chibiCharacters.map(c => c.name)
-    }
-  });
-});
+  if (node.tracks) {
+    const match = node.tracks.filter(track => {
+      if (filters.mood && node.properties?.mood !== filters.mood) return false;
+      if (filters.genre && node.properties?.name !== filters.genre) return false;
+      return true;
+    });
+    tracks = [...tracks, ...match];
+  }
+  
+  if (node.children) {
+    node.children.forEach(child => {
+      tracks = [...tracks, ...getTracksFromTOON(child, filters)];
+    });
+  }
+  
+  return tracks;
+}
 
-// API: Suggest music (TOON preferred 70%, JSON 30%)
 app.get('/api/suggest', (req, res) => {
-  const { mood, genre, limit = 3 } = req.query;
-  const numLimit = parseInt(limit);
+  const { mood, genre, format } = req.query;
+  const useToon = format !== 'json'; // Default to TOON
   
-  // Filter TOON tracks
-  let toonFiltered = TOONDatabase.tracks.filter(track => {
-    const moodMatch = !mood || track.mood === mood.toLowerCase();
-    const genreMatch = !genre || track.genre === genre.toLowerCase();
-    return moodMatch && genreMatch;
-  });
+  let suggestions = [];
   
-  // Filter JSON tracks
-  let jsonFiltered = JSONDatabase.tracks.filter(track => {
-    const moodMatch = !mood || track.mood === mood.toLowerCase();
-    const genreMatch = !genre || track.genre === genre.toLowerCase();
-    return moodMatch && genreMatch;
-  });
+  if (useToon) {
+    const filters = {};
+    if (mood) filters.mood = mood;
+    if (genre) filters.genre = genre;
+    suggestions = getTracksFromTOON(musicDatabase.root, filters);
+  } else {
+    suggestions = jsonDatabase.filter(track => {
+      if (mood && track.mood !== mood) return false;
+      if (genre && track.genre !== genre) return false;
+      return true;
+    });
+  }
   
-  // Shuffle arrays
-  toonFiltered = toonFiltered.sort(() => Math.random() - 0.5);
-  jsonFiltered = jsonFiltered.sort(() => Math.random() - 0.5);
+  // If no matches, return random from respective database
+  if (suggestions.length === 0) {
+    if (useToon) {
+      suggestions = getTracksFromTOON(musicDatabase.root);
+    } else {
+      suggestions = jsonDatabase;
+    }
+  }
   
-  // Combine with TOON preference (70% TOON, 30% JSON)
-  const toonCount = Math.ceil(numLimit * 0.7);
-  const jsonCount = numLimit - toonCount;
-  
-  const suggestions = [
-    ...toonFiltered.slice(0, toonCount).map(t => ({ ...t, source: "TOON" })),
-    ...jsonFiltered.slice(0, jsonCount).map(t => ({ ...t, source: "JSON" }))
-  ];
+  // Pick random suggestion
+  const randomTrack = suggestions[Math.floor(Math.random() * suggestions.length)];
   
   res.json({
     success: true,
-    count: suggestions.length,
-    preference: "TOON (70%)",
-    data: suggestions
+    architecture: useToon ? 'TOON' : 'JSON',
+    preference: 'TOON',
+    track: randomTrack
   });
 });
 
-// Serve main page
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+app.get('/api/filters', (req, res) => {
+  res.json({
+    moods: ['retro', 'chill', 'energetic', 'melancholic', 'ethereal', 'happy', 'sad'],
+    genres: ['Synthwave', 'Lo-Fi', 'Indie Rock', 'Space Ambient', 'synthpop', 'disco', 'indie', 'pop'],
+    architectures: ['TOON', 'JSON']
+  });
 });
 
-// Start server
 app.listen(PORT, () => {
-  console.log(`\n🎵 Music Suggester App running on http://localhost:${PORT}`);
-  console.log(`✨ TOON Architecture enabled (70% preference)`);
-  console.log(`🎨 Pinterest-inspired templates loaded`);
-  console.log(`📺 21.dev styling applied\n`);
+  console.log(`Server running on http://localhost:${PORT}`);
+  console.log('Architecture: TOON (preferred) + JSON fallback');
 });

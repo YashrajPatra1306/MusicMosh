@@ -3,131 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎵 Cosy Music Suggester | 21.dev x Pinterest</title>
-  
-  <!-- Google Fonts: Pixel art fonts -->
+  <title>Music Mosh - Pixelated Music Suggester</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-  
-  <!-- Pretext for structured logging -->
-  <script src="https://cdn.jsdelivr.net/npm/pretext@1.0.0/dist/pretext.min.js"></script>
-  
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Three.js Background Canvas -->
-  <canvas id="bg-canvas"></canvas>
-  
-  <!-- CRT Scanline Overlay -->
+  <div id="canvas-container"></div>
   <div class="scanlines"></div>
   <div class="vignette"></div>
   
-  <!-- Main Container -->
-  <div class="container">
-    <!-- Header -->
-    <header class="header">
-      <h1 class="glitch-title" data-text="Music Suggester">
-        <span class="pixel-icon">🎵</span>
-        Music Suggester
-        <span class="version-badge">v2.1.dev</span>
-      </h1>
-      <p class="subtitle">Powered by TOON Architecture • Pinterest-Inspired</p>
-    </header>
-    
-    <!-- Stats Bar -->
-    <div class="stats-bar">
-      <div class="stat-item">
-        <span class="stat-icon">🎶</span>
-        <span class="stat-label">Tracks:</span>
-        <span class="stat-value" id="track-count">0</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-icon">📊</span>
-        <span class="stat-label">TOON:</span>
-        <span class="stat-value toon-highlight" id="toon-count">70%</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-icon">📄</span>
-        <span class="stat-label">JSON:</span>
-        <span class="stat-value json-highlight" id="json-count">30%</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-icon">✨</span>
-        <span class="stat-label">Suggestions:</span>
-        <span class="stat-value" id="suggestion-count">0</span>
-      </div>
-    </div>
-    
-    <!-- Controls Section -->
-    <section class="controls-section">
+  <header>
+    <h1 class="glitch" data-text="MUSIC MOSH">MUSIC MOSH</h1>
+    <p class="subtitle">Intricate Pixelated Music Discovery</p>
+  </header>
+
+  <main>
+    <section class="controls">
       <div class="filter-group">
-        <label class="pixel-label">Mood:</label>
-        <select id="mood-filter" class="pixel-select">
-          <option value="">Any Mood</option>
-          <option value="cosy">Cosy</option>
-          <option value="energetic">Energetic</option>
-          <option value="calm">Calm</option>
-          <option value="nostalgic">Nostalgic</option>
-          <option value="romantic">Romantic</option>
-          <option value="intense">Intense</option>
-          <option value="peaceful">Peaceful</option>
-          <option value="melancholic">Melancholic</option>
+        <label for="mood">MOOD</label>
+        <select id="mood">
+          <option value="">ANY</option>
+          <option value="retro">RETRO</option>
+          <option value="chill">CHILL</option>
+          <option value="energetic">ENERGETIC</option>
+          <option value="melancholic">MELANCHOLIC</option>
+          <option value="ethereal">ETHEREAL</option>
+          <option value="happy">HAPPY</option>
+          <option value="sad">SAD</option>
         </select>
       </div>
-      
+
       <div class="filter-group">
-        <label class="pixel-label">Genre:</label>
-        <select id="genre-filter" class="pixel-select">
-          <option value="">Any Genre</option>
-          <option value="lo-fi">Lo-Fi</option>
-          <option value="synthwave">Synthwave</option>
-          <option value="chiptune">Chiptune</option>
-          <option value="jazz-hop">Jazz-Hop</option>
-          <option value="electronic">Electronic</option>
-          <option value="ambient">Ambient</option>
-          <option value="synthpop">Synthpop</option>
+        <label for="genre">GENRE</label>
+        <select id="genre">
+          <option value="">ANY</option>
+          <option value="Synthwave">SYNTHWAVE</option>
+          <option value="Lo-Fi">LO-FI</option>
+          <option value="Indie Rock">INDIE ROCK</option>
+          <option value="Space Ambient">SPACE AMBIENT</option>
+          <option value="synthpop">SYNTHPOP</option>
+          <option value="disco">DISCO</option>
+          <option value="indie">INDIE</option>
+          <option value="pop">POP</option>
         </select>
       </div>
-      
-      <button id="suggest-btn" class="pixel-btn primary">
-        <span class="btn-icon">✨</span>
-        Get Suggestions
+
+      <div class="filter-group">
+        <label for="architecture">ARCHITECTURE</label>
+        <select id="architecture">
+          <option value="toon">TOON (Preferred)</option>
+          <option value="json">JSON</option>
+        </select>
+      </div>
+
+      <button id="suggest-btn" class="pixel-btn">
+        <span class="btn-text">FIND TRACK</span>
         <span class="btn-particles"></span>
       </button>
     </section>
-    
-    <!-- Loading Spinner -->
-    <div id="loading" class="loading hidden">
-      <div class="spinner">
-        <div class="spinner-ring"></div>
-        <div class="spinner-ring"></div>
-        <div class="spinner-ring"></div>
-        <div class="spinner-dot"></div>
+
+    <section class="result-container" id="result-container">
+      <div class="card" id="track-card">
+        <div class="card-header">
+          <span class="source-badge" id="source-badge">TOON</span>
+          <span class="arch-badge" id="arch-badge">ARCH: TOON</span>
+        </div>
+        <div class="card-body">
+          <h2 class="track-title" id="track-title">PRESS FIND TRACK</h2>
+          <p class="track-artist" id="track-artist">Waiting for input...</p>
+        </div>
+        <div class="card-footer">
+          <a href="#" target="_blank" rel="noopener" class="play-btn" id="play-btn">
+            <span class="icon">▶</span>
+            <span>PLAY NOW</span>
+          </a>
+        </div>
       </div>
-      <p class="loading-text">Finding cosy tunes...</p>
-    </div>
-    
-    <!-- Results Section -->
-    <section id="results" class="results-section hidden">
-      <h2 class="section-title">
-        <span class="pixel-icon">💿</span>
-        Your Suggestions
-      </h2>
-      <div id="cards-container" class="cards-grid"></div>
     </section>
-    
-    <!-- Footer -->
-    <footer class="footer">
-      <p>Made with 💖 using Three.js + Anime.js</p>
-      <p class="tiny">TOON Architecture v2.1.dev • Inspired by Pinterest & 21.dev</p>
-    </footer>
-  </div>
-  
-  <!-- Particles Container -->
-  <div id="particles-container" class="particles-container"></div>
-  
-  <!-- Scripts -->
+
+    <section class="stats-bar">
+      <div class="stat">
+        <span class="stat-label">TRACKS</span>
+        <span class="stat-value" id="track-count">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">TOON</span>
+        <span class="stat-value" id="toon-count">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">JSON</span>
+        <span class="stat-value" id="json-count">0</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Apache License 2.0 | Built with Three.js + Anime.js</p>
+    <p>Templates inspired by 21.dev and Pinterest aesthetics</p>
+  </footer>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
   <script src="app.js"></script>
