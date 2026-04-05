@@ -1,0 +1,19 @@
+{
+  "name": "music-suggester",
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js"
+  },
+  "keywords": ["music", "suggester", "anime", "threejs"],
+  "author": "",
+  "license": "ISC",
+  "description": "A cosy music suggester app with pixelated interface and chibi characters",
+  "dependencies": {
+    "animejs": "^4.3.6",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "three": "^0.183.2"
+  }
+}
