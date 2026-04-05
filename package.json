@@ -6,7 +6,12 @@
     "start": "node src/server.js",
     "dev": "node src/server.js"
   },
-  "keywords": ["music", "suggester", "anime", "threejs"],
+  "keywords": [
+    "music",
+    "suggester",
+    "anime",
+    "threejs"
+  ],
   "author": "",
   "license": "ISC",
   "description": "A cosy music suggester app with pixelated interface and chibi characters",
