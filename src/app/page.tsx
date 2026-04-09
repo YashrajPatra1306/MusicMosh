@@ -7,6 +7,9 @@ import {
   Heart, Eye, Clock, Check, Info, Star, Waves, BookOpen, Cpu, Brain,
   Lightbulb, Compass, ArrowRight, ExternalLink
 } from 'lucide-react'
+import ThreeSceneCanvas, { generateVisualConfig } from '@/components/music-mosh/three-scene-canvas'
+import { ThreeSceneErrorBoundary, ThreeSceneFallback } from '@/components/music-mosh/three-scene-error-boundary'
+import { ShareButton } from '@/components/music-mosh/share-button'
 
 // ═══════════════════════════════════════════════════
 // DATA
@@ -189,6 +192,11 @@ function HeroSection() {
       className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden"
       style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
     >
+      {/* Share button - top right */}
+      <div className="absolute top-6 right-6 z-50">
+        <ShareButton />
+      </div>
+
       {/* Equalizer visualization behind title */}
       <div className="absolute inset-0 flex items-end justify-center gap-[3px] pb-[20vh] opacity-20 pointer-events-none">
         {Array.from({ length: 60 }, (_, i) => (
@@ -477,11 +485,15 @@ function DimensionSelector({
   onSelect,
   onShuffle,
   isLoading,
+  chaosMode,
+  onToggleChaosMode,
 }: {
   selections: { mood: string | null; genre: string | null; theme: string | null }
   onSelect: (type: 'mood' | 'genre' | 'theme', value: string) => void
   onShuffle: () => void
   isLoading: boolean
+  chaosMode: boolean
+  onToggleChaosMode: () => void
 }) {
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
@@ -671,6 +683,23 @@ function DimensionSelector({
               Surprise Me
             </span>
           </MagneticButton>
+
+          {/* Chaos Mode Toggle */}
+          <button
+            onClick={onToggleChaosMode}
+            className="px-6 py-4 rounded-xl font-medium text-sm tracking-wide transition-all duration-300"
+            style={{
+              fontFamily: 'var(--font-space-grotesk)',
+              background: chaosMode ? 'rgba(255, 107, 107, 0.1)' : 'transparent',
+              color: chaosMode ? '#ff6b6b' : '#888888',
+              border: chaosMode ? '1px solid rgba(255, 107, 107, 0.3)' : '1px solid rgba(255,255,255,0.08)',
+            }}
+          >
+            <span className="flex items-center gap-2">
+              <Zap className={`w-4 h-4 ${chaosMode ? 'animate-pulse' : ''}`} />
+              {chaosMode ? 'Chaos ON' : 'Chaos Mode'}
+            </span>
+          </button>
         </motion.div>
       </div>
     </section>
@@ -1237,6 +1266,40 @@ export default function Home() {
 
   const [track, setTrack] = useState<TrackData | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [visualConfig, setVisualConfig] = useState<ReturnType<typeof generateVisualConfig> | null>(null)
+  const [chaosMode, setChaosMode] = useState(false)
+  const chaosIntervalRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Initialize visual config on mount
+  useEffect(() => {
+    setVisualConfig(generateVisualConfig())
+  }, [])
+
+  // Chaos mode effect
+  useEffect(() => {
+    if (chaosMode) {
+      chaosIntervalRef.current = setInterval(() => {
+        setVisualConfig(generateVisualConfig())
+      }, 8000)
+    } else {
+      if (chaosIntervalRef.current) {
+        clearInterval(chaosIntervalRef.current)
+        chaosIntervalRef.current = null
+      }
+    }
+    return () => {
+      if (chaosIntervalRef.current) {
+        clearInterval(chaosIntervalRef.current)
+      }
+    }
+  }, [chaosMode])
+
+  // Update visual config when selections change
+  useEffect(() => {
+    if (selections.mood && selections.genre) {
+      setVisualConfig(generateVisualConfig(selections.mood, selections.genre, selections.theme || undefined))
+    }
+  }, [selections])
 
   const handleSelect = useCallback((type: 'mood' | 'genre' | 'theme', value: string) => {
     setSelections(prev => ({ ...prev, [type]: value }))
@@ -1282,13 +1345,38 @@ export default function Home() {
     }
   }, [selections, handleShuffle])
 
+  const toggleChaosMode = useCallback(() => {
+    setChaosMode(prev => !prev)
+  }, [])
+
   return (
     <main className="relative min-h-screen">
+      {/* 3D Scene Background with Error Boundary */}
+      {visualConfig && (
+        <ThreeSceneErrorBoundary fallback={<ThreeSceneFallback />}>
+          <ThreeSceneCanvas 
+            visualConfig={visualConfig} 
+          />
+        </ThreeSceneErrorBoundary>
+      )}
+
       {/* Ambient layers */}
       <AmbientOrbs />
-      <FloatingParticles count={25} />
-      <FloatingNotes />
       <CursorGlow />
+
+      {/* Chaos mode indicator */}
+      {chaosMode && (
+        <div className="fixed top-4 right-4 z-50 px-4 py-2 rounded-full text-sm font-medium"
+          style={{
+            background: 'rgba(0, 255, 157, 0.1)',
+            border: '1px solid rgba(0, 255, 157, 0.3)',
+            color: '#00ff9d',
+            animation: 'glowPulse 2s ease-in-out infinite'
+          }}
+        >
+          ⚡ CHAOS MODE ON
+        </div>
+      )}
 
       {/* Journey progress bar */}
       <JourneyProgress />
@@ -1301,6 +1389,8 @@ export default function Home() {
         onSelect={handleSelect}
         onShuffle={handleShuffle}
         isLoading={isLoading}
+        chaosMode={chaosMode}
+        onToggleChaosMode={toggleChaosMode}
       />
       <ResultSection
         track={track}

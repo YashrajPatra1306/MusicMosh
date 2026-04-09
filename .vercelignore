@@ -1,0 +1,25 @@
+# Development files
+.zscripts
+download
+upload
+mini-services
+examples
+skills
+worklog.md
+*.tar
+
+# Database (if exists)
+*.db
+*.sqlite
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+.next/cache

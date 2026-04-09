@@ -15,9 +15,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Music Mosh MAX — Immersive Music Discovery",
+  title: "Music Mosh MAX — Discover Music Through 3D Visuals",
   description:
-    "Every song has a story. What's yours? Discover music through an immersive, storytelling-driven experience.",
+    "Every song has a story. What's yours? Discover music through an immersive, procedural 3D visual experience with real-time YouTube track discovery.",
   keywords: [
     "music",
     "discovery",
@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     "playlist",
     "YouTube",
     "immersive",
+    "3D visuals",
+    "procedural generation",
+    "Three.js",
   ],
   authors: [{ name: "Music Mosh" }],
   icons: {
@@ -33,8 +36,21 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Music Mosh MAX",
-    description: "Every song has a story. What's yours?",
+    description: "Every song has a story. What's yours? Discover music through 3D visuals.",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Music Mosh MAX — 3D Music Discovery",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Music Mosh MAX",
+    description: "Every song has a story. What's yours?",
   },
 };
 
