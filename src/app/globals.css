@@ -6,8 +6,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-space-grotesk);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-syne);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -88,16 +89,6 @@
   --mm-text-muted: #888888;
   --mm-text-faint: #444444;
   --mm-bg: #050508;
-
-  /* Mood gradients */
-  --mood-energetic: linear-gradient(135deg, #ff6b35, #ff4444);
-  --mood-melancholic: linear-gradient(135deg, #4a1a8a, #1a3a6a);
-  --mood-focused: linear-gradient(135deg, #0d9488, #06b6d4);
-  --mood-nostalgic: linear-gradient(135deg, #d97706, #92400e);
-  --mood-dreamy: linear-gradient(135deg, #c084fc, #f9a8d4);
-  --mood-aggressive: linear-gradient(135deg, #dc2626, #7f1d1d);
-  --mood-chill: linear-gradient(135deg, #34d399, #059669);
-  --mood-romantic: linear-gradient(135deg, #f472b6, #e11d48);
 }
 
 .dark {
@@ -112,6 +103,7 @@
   body {
     @apply bg-background text-foreground;
     overflow-x: hidden;
+    cursor: default;
   }
 }
 
@@ -380,6 +372,266 @@
 }
 
 /* ═══════════════════════════════════════════════════════ */
+/* AMBIENT FLOATING ORBS                                  */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes orbFloat1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(80px, -60px) scale(1.1);
+  }
+  50% {
+    transform: translate(-40px, -120px) scale(0.9);
+  }
+  75% {
+    transform: translate(60px, -40px) scale(1.05);
+  }
+}
+
+@keyframes orbFloat2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(-100px, 50px) scale(0.95);
+  }
+  50% {
+    transform: translate(50px, 100px) scale(1.1);
+  }
+  75% {
+    transform: translate(-80px, -30px) scale(1);
+  }
+}
+
+@keyframes orbFloat3 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(120px, 80px) scale(1.15);
+  }
+  66% {
+    transform: translate(-60px, -90px) scale(0.85);
+  }
+}
+
+.orb-1 {
+  animation: orbFloat1 20s ease-in-out infinite;
+}
+
+.orb-2 {
+  animation: orbFloat2 25s ease-in-out infinite;
+}
+
+.orb-3 {
+  animation: orbFloat3 18s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* GLITCH TEXT EFFECT                                     */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes glitch1 {
+  0%, 100% {
+    clip-path: inset(0 0 90% 0);
+    transform: translate(0);
+  }
+  20% {
+    clip-path: inset(30% 0 40% 0);
+    transform: translate(-3px, 2px);
+  }
+  40% {
+    clip-path: inset(60% 0 10% 0);
+    transform: translate(3px, -1px);
+  }
+  60% {
+    clip-path: inset(10% 0 70% 0);
+    transform: translate(-2px, 3px);
+  }
+  80% {
+    clip-path: inset(80% 0 5% 0);
+    transform: translate(2px, -2px);
+  }
+}
+
+@keyframes glitch2 {
+  0%, 100% {
+    clip-path: inset(90% 0 0 0);
+    transform: translate(0);
+  }
+  20% {
+    clip-path: inset(50% 0 20% 0);
+    transform: translate(3px, -2px);
+  }
+  40% {
+    clip-path: inset(10% 0 60% 0);
+    transform: translate(-3px, 1px);
+  }
+  60% {
+    clip-path: inset(70% 0 10% 0);
+    transform: translate(2px, -3px);
+  }
+  80% {
+    clip-path: inset(20% 0 50% 0);
+    transform: translate(-2px, 2px);
+  }
+}
+
+.glitch-text {
+  position: relative;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-text::before {
+  color: #00ff9d;
+  animation: glitch1 3s infinite linear alternate-reverse;
+  opacity: 0.7;
+}
+
+.glitch-text::after {
+  color: #00d4ff;
+  animation: glitch2 3s infinite linear alternate-reverse;
+  opacity: 0.7;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* CURSOR GLOW TRAIL                                     */
+/* ═══════════════════════════════════════════════════════ */
+.cursor-glow {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    circle,
+    rgba(0, 255, 157, 0.06) 0%,
+    rgba(0, 212, 255, 0.03) 40%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  transition: left 0.15s ease-out, top 0.15s ease-out;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* GLASSMORPHISM CARD                                     */
+/* ═══════════════════════════════════════════════════════ */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* TYPING CURSOR                                          */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.typing-cursor {
+  animation: blink 1s step-end infinite;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* CTA BUTTON GLOW                                        */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes ctaGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.3), 0 0 40px rgba(0, 255, 157, 0.1), inset 0 0 20px rgba(0, 255, 157, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 255, 157, 0.5), 0 0 60px rgba(0, 255, 157, 0.2), inset 0 0 30px rgba(0, 255, 157, 0.1);
+  }
+}
+
+.cta-glow {
+  animation: ctaGlow 2.5s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* CHIP GLOW ON SELECT                                    */
+/* ═══════════════════════════════════════════════════════ */
+.chip-selected {
+  box-shadow: 0 0 12px rgba(0, 255, 157, 0.3), 0 0 24px rgba(0, 255, 157, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* RESULT CARD 3D ENTRANCE                                */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes resultReveal {
+  0% {
+    transform: perspective(1000px) rotateY(-15deg) rotateX(10deg) scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: perspective(1000px) rotateY(5deg) rotateX(-3deg) scale(1.02);
+    opacity: 0.8;
+  }
+  100% {
+    transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* MAGNETIC BUTTON PULL                                   */
+/* ═══════════════════════════════════════════════════════ */
+.magnetic-btn {
+  transition: transform 0.2s ease-out;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* SKELETON SHIMMER                                       */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes skeletonShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.03) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* SECTION GRADIENT SHIFTS                                */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes bgShift {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* ═══════════════════════════════════════════════════════ */
 /* REDUCED MOTION                                         */
 /* ═══════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
@@ -388,7 +640,7 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .particle, .floating-note, .burst-particle {
+  .particle, .floating-note, .burst-particle, .cursor-glow {
     display: none;
   }
 }
