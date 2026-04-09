@@ -229,7 +229,7 @@ export default function ThreeSceneCanvas({ visualConfig, onReady }: ThreeScenePr
             // Scene
             const scene = new THREE.Scene()
             scene.background = config.colors.bg
-            scene.fog = new THREE.FogExp2(config.colors.bg, 0.02)
+            scene.fog = new THREE.FogExp2(config.colors.bg.getHex(), 0.02)
             
             // Camera
             const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000)
