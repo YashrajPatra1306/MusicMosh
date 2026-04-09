@@ -10,6 +10,7 @@ import {
 import ThreeSceneCanvas, { generateVisualConfig } from '@/components/music-mosh/three-scene-canvas'
 import { ThreeSceneErrorBoundary, ThreeSceneFallback } from '@/components/music-mosh/three-scene-error-boundary'
 import { ShareButton } from '@/components/music-mosh/share-button'
+import type { Variants } from 'framer-motion'
 
 // ═══════════════════════════════════════════════════
 // DATA
@@ -179,11 +180,11 @@ function HeroSection() {
   const title = "MUSIC MOSH"
   const subtitle = "Every sound tells a story. What's yours?"
 
-  const letterVariants = {
+  const letterVariants: Variants = {
     hidden: { y: 80, opacity: 0, rotateX: -90 },
     visible: (i: number) => ({
       y: 0, opacity: 1, rotateX: 0,
-      transition: { delay: 0.5 + i * 0.04, duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }
+      transition: { delay: 0.5 + i * 0.04, duration: 0.8, ease: [0.215, 0.61, 0.355, 1] as [number, number, number, number] }
     }),
   }
 

@@ -47,7 +47,8 @@ function detectGPUTier(): 'low' | 'medium' | 'high' {
     if (typeof window === 'undefined') return 'high'
     try {
         const canvas = document.createElement('canvas')
-        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+        const gl = canvas.getContext('webgl') as WebGLRenderingContext | null
+            || canvas.getContext('experimental-webgl') as WebGLRenderingContext | null
         if (!gl) return 'low'
         const dbg = gl.getExtension('WEBGL_debug_renderer_info')
         const renderer = dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER)
