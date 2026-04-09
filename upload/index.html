@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Mosh MAX</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Three.js + Post-Processing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/shaders/CopyShader.js"></script>
+
+    <!-- GSAP + Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+
+    <!-- Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+</head>
+<body>
+
+    <!-- Background Canvas -->
+    <canvas id="art-canvas" aria-hidden="true"></canvas>
+
+    <!-- Tooltip -->
+    <div id="tooltip" class="tooltip" role="tooltip" aria-hidden="true"></div>
+
+    <main class="narrative-scroll" id="main-content">
+
+        <!-- ══════════════════ HERO ══════════════════ -->
+        <section class="panel hero-panel" aria-labelledby="hero-title">
+            <div class="hero-content">
+                <h1 class="glitch-text" id="hero-title" data-text="MUSIC MOSH">MUSIC MOSH</h1>
+                <p class="hero-sub">Pick your vibe. We'll find your track.</p>
+            </div>
+            <div class="scroll-indicator" aria-hidden="true">
+                <span class="scroll-text">scroll</span>
+                <div class="line"></div>
+            </div>
+        </section>
+
+        <!-- ══════════════════ MIXER ══════════════════ -->
+        <section class="panel mixer-panel" aria-labelledby="mixer-title">
+            <div class="glass-container">
+
+                <div class="header-row">
+                    <h2 id="mixer-title">Configure Dimensions</h2>
+                    <div class="header-actions">
+                        <span class="style-badge" id="current-style">— SELECT TO BEGIN —</span>
+                        <button class="small-btn" id="refresh-visuals-btn" aria-label="Refresh 3D visuals" title="Refresh visuals">↺</button>
+                        <button class="small-btn chaos-btn" id="chaos-toggle" aria-label="Toggle chaos mode" aria-pressed="false" title="Chaos mode">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" /></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Inline validation hint -->
+                <div class="selection-hint" id="selection-hint" role="alert" hidden>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
+                    <span id="selection-hint-text">Please complete all 3 selections first.</span>
+                </div>
+
+                <div class="controls-grid">
+
+                    <!-- MOOD -->
+                    <div class="control-group" role="group" aria-labelledby="mood-label">
+                        <div class="group-header">
+                            <label id="mood-label" class="group-label">
+                                Mood
+                                <button class="info-icon" aria-label="About Mood" data-tip="The emotional energy of the track.">?</button>
+                            </label>
+                            <span class="group-check" id="mood-check" aria-hidden="true" hidden><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" width="11" height="11"><polyline points="1.5 6 4.5 9 10.5 3" /></svg></span>
+                        </div>
+                        <div class="options-wrapper" id="mood-options" role="listbox" aria-label="Select mood"></div>
+                    </div>
+
+                    <!-- GENRE -->
+                    <div class="control-group" role="group" aria-labelledby="genre-label">
+                        <div class="group-header">
+                            <label id="genre-label" class="group-label">
+                                Genre
+                                <button class="info-icon" aria-label="About Genre" data-tip="The musical style.">?</button>
+                            </label>
+                            <span class="group-check" id="genre-check" aria-hidden="true" hidden><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" width="11" height="11"><polyline points="1.5 6 4.5 9 10.5 3" /></svg></span>
+                        </div>
+                        <div class="options-wrapper" id="genre-options" role="listbox" aria-label="Select genre"></div>
+                    </div>
+
+                    <!-- THEME -->
+                    <div class="control-group" role="group" aria-labelledby="theme-label">
+                        <div class="group-header">
+                            <label id="theme-label" class="group-label">
+                                Theme
+                                <button class="info-icon" aria-label="About Theme" data-tip="The conceptual visual world.">?</button>
+                            </label>
+                            <span class="group-check" id="theme-check" aria-hidden="true" hidden><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" width="11" height="11"><polyline points="1.5 6 4.5 9 10.5 3" /></svg></span>
+                        </div>
+                        <div class="options-wrapper" id="theme-options" role="listbox" aria-label="Select theme"></div>
+                    </div>
+
+                </div>
+
+                <!-- CTA Row -->
+                <div class="action-row">
+                    <button class="mega-btn" id="shuffle-btn" aria-label="Find a track based on your selections">
+                        <span class="btn-bg" aria-hidden="true"></span>
+                        <span class="btn-inner">
+                            <span class="btn-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18">
+                                    <polyline points="16 3 21 3 21 8" />
+                                    <line x1="4" y1="20" x2="21" y2="3" />
+                                    <polyline points="21 16 21 21 16 21" />
+                                    <line x1="15" y1="15" x2="21" y2="21" />
+                                </svg>
+                            </span>
+                            <span class="btn-text">Find My Track</span>
+                            <span class="btn-loading" aria-hidden="true">
+                                <span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span>
+                            </span>
+                        </span>
+                    </button>
+
+                    <button class="surprise-btn" id="surprise-btn" aria-label="Randomly fill all selections for me">
+                        Surprise Me
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ══════════════════ RESULT ══════════════════ -->
+        <section class="panel result-panel" id="result-panel" aria-labelledby="result-heading">
+
+            <!-- Skeleton loader -->
+            <div class="card-container card-skeleton" id="card-skeleton" hidden aria-label="Loading recommendation" aria-busy="true">
+                <div class="skeleton-media"></div>
+                <div class="skeleton-body">
+                    <div class="skel-tags">
+                        <div class="skeleton skel-tag"></div>
+                        <div class="skeleton skel-tag"></div>
+                        <div class="skeleton skel-tag"></div>
+                    </div>
+                    <div class="skeleton skel-title"></div>
+                    <div class="skeleton skel-subtitle"></div>
+                    <div class="skeleton skel-btn"></div>
+                </div>
+            </div>
+
+            <!-- Result card -->
+            <div class="card-container hidden" id="result-card" role="article" aria-labelledby="result-heading">
+
+                <div class="card-media">
+                    <div class="thumb-wrap" id="thumb-wrap">
+                        <div class="thumb-fallback" id="thumb-fallback" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="52" height="52">
+                                <path d="M9 18V5l12-2v13" />
+                                <circle cx="6" cy="18" r="3" />
+                                <circle cx="18" cy="16" r="3" />
+                            </svg>
+                        </div>
+                        <img id="track-thumb" src="" alt="" class="thumb-img" loading="lazy" width="700" height="393" hidden />
+                    </div>
+                    <div class="visualizer-bar" aria-hidden="true">
+                        <div class="vis-line" style="--i:0"></div>
+                        <div class="vis-line" style="--i:1"></div>
+                        <div class="vis-line" id="vis-line-anim" style="--i:2"></div>
+                        <div class="vis-line" style="--i:3"></div>
+                        <div class="vis-line" style="--i:4"></div>
+                        <div class="vis-line" style="--i:5"></div>
+                        <div class="vis-line" style="--i:6"></div>
+                        <div class="vis-line" style="--i:7"></div>
+                        <div class="vis-line" style="--i:8"></div>
+                    </div>
+                </div>
+
+                <div class="card-content">
+                    <div class="tag-row" role="list" aria-label="Track tags">
+                        <span class="tag" id="res-mood" role="listitem">—</span>
+                        <span class="tag" id="res-genre" role="listitem">—</span>
+                        <span class="tag" id="res-theme" role="listitem">—</span>
+                    </div>
+
+                    <h2 class="track-title" id="result-heading">
+                        <span id="res-title">Track Title</span>
+                    </h2>
+                    <p class="track-artist" id="res-artist">Artist Name</p>
+
+                    <div class="track-meta" id="track-meta" hidden>
+                        <span class="meta-item" id="res-views">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>
+                            <span id="res-views-val">—</span>
+                        </span>
+                        <span class="meta-sep" aria-hidden="true">·</span>
+                        <span class="meta-item" id="res-duration">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                            <span id="res-dur-val">—</span>
+                        </span>
+                    </div>
+
+                    <div class="play-action-row">
+                        <a href="#" id="play-link" class="play-action" target="_blank" rel="noopener noreferrer" aria-label="Open track on YouTube">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                            Play on YouTube
+                        </a>
+
+                        <button class="copy-btn" id="copy-btn" aria-label="Copy track link to clipboard">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                            </svg>
+                            <span class="copy-label">Copy</span>
+                        </button>
+                    </div>
+
+                    <button class="find-another-btn" id="find-another-btn" aria-label="Find another track with the same settings">
+                        ↺ Find Another
+                    </button>
+
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
+</html>

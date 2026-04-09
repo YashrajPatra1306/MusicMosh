@@ -1,0 +1,394 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: #050508;
+  --foreground: #ffffff;
+  --card: #10101a;
+  --card-foreground: #ffffff;
+  --popover: #10101a;
+  --popover-foreground: #ffffff;
+  --primary: #00ff9d;
+  --primary-foreground: #050508;
+  --secondary: #00d4ff;
+  --secondary-foreground: #050508;
+  --muted: #1a1a2e;
+  --muted-foreground: #888888;
+  --accent: #00ff9d;
+  --accent-foreground: #050508;
+  --destructive: #ff4444;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #00ff9d;
+  --chart-1: #00ff9d;
+  --chart-2: #00d4ff;
+  --chart-3: #ff6b6b;
+  --chart-4: #ffd93d;
+  --chart-5: #c084fc;
+  --sidebar: #0a0a12;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #00ff9d;
+  --sidebar-primary-foreground: #050508;
+  --sidebar-accent: #1a1a2e;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-ring: #00ff9d;
+
+  /* Music Mosh specific */
+  --mm-glass: rgba(16, 16, 20, 0.72);
+  --mm-glass-border: rgba(255, 255, 255, 0.06);
+  --mm-glass-hover: rgba(255, 255, 255, 0.1);
+  --mm-accent: #00ff9d;
+  --mm-accent-dim: rgba(0, 255, 157, 0.15);
+  --mm-secondary: #00d4ff;
+  --mm-text: #ffffff;
+  --mm-text-muted: #888888;
+  --mm-text-faint: #444444;
+  --mm-bg: #050508;
+
+  /* Mood gradients */
+  --mood-energetic: linear-gradient(135deg, #ff6b35, #ff4444);
+  --mood-melancholic: linear-gradient(135deg, #4a1a8a, #1a3a6a);
+  --mood-focused: linear-gradient(135deg, #0d9488, #06b6d4);
+  --mood-nostalgic: linear-gradient(135deg, #d97706, #92400e);
+  --mood-dreamy: linear-gradient(135deg, #c084fc, #f9a8d4);
+  --mood-aggressive: linear-gradient(135deg, #dc2626, #7f1d1d);
+  --mood-chill: linear-gradient(135deg, #34d399, #059669);
+  --mood-romantic: linear-gradient(135deg, #f472b6, #e11d48);
+}
+
+.dark {
+  --background: #050508;
+  --foreground: #ffffff;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* CUSTOM SCROLLBAR                                       */
+/* ═══════════════════════════════════════════════════════ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #050508;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 157, 0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 157, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* PARTICLE BACKGROUND                                    */
+/* ═══════════════════════════════════════════════════════ */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particleFloat linear infinite;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(var(--drift, 20px)) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* PULSING SOUNDWAVE                                      */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes soundwave {
+  0%, 100% {
+    transform: scaleY(0.3);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.soundwave-bar {
+  animation: soundwave ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* EQUALIZER BARS                                         */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes equalizerBounce {
+  0%, 100% {
+    height: 8px;
+  }
+  50% {
+    height: var(--eq-height, 24px);
+  }
+}
+
+.eq-bar {
+  animation: equalizerBounce ease-in-out infinite;
+  animation-duration: var(--eq-speed, 0.8s);
+  animation-delay: var(--eq-delay, 0s);
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* SHIMMER EFFECT                                         */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer-effect {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-effect::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2.5s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* GLOW PULSE                                             */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.1), 0 0 60px rgba(0, 255, 157, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 255, 157, 0.2), 0 0 80px rgba(0, 255, 157, 0.1);
+  }
+}
+
+.glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* GRADIENT MESH                                          */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-mesh {
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* FLOATING MUSICAL NOTES                                 */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes floatNote {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-50vh) rotate(180deg) scale(1.1);
+    opacity: 0.4;
+  }
+  90% {
+    opacity: 0.1;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg) scale(0.8);
+    opacity: 0;
+  }
+}
+
+.floating-note {
+  animation: floatNote linear infinite;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* NOISE TEXTURE OVERLAY                                  */
+/* ═══════════════════════════════════════════════════════ */
+.noise-overlay::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* SCROLL INDICATOR                                       */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes scrollBounce {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 0.5;
+  }
+}
+
+.scroll-indicator-anim {
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* PARTICLE BURST                                         */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes particleBurst {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--burst-x, 0), var(--burst-y, 0)) scale(0);
+    opacity: 0;
+  }
+}
+
+.burst-particle {
+  animation: particleBurst ease-out forwards;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* CONNECTING LINES                                       */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes lineGrow {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    height: 60px;
+    opacity: 0.3;
+  }
+}
+
+.connecting-line {
+  animation: lineGrow 0.8s ease-out forwards;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* DICE ANIMATION                                         */
+/* ═══════════════════════════════════════════════════════ */
+@keyframes diceRoll {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(90deg) scale(1.1); }
+  50% { transform: rotate(180deg) scale(1); }
+  75% { transform: rotate(270deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.dice-roll {
+  animation: diceRoll 0.6s ease-in-out;
+}
+
+/* ═══════════════════════════════════════════════════════ */
+/* REDUCED MOTION                                         */
+/* ═══════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .particle, .floating-note, .burst-particle {
+    display: none;
+  }
+}
