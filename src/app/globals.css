@@ -644,3 +644,174 @@
     display: none;
   }
 }
+
+/* Music Mosh — Bauhaus production finish */
+:root {
+  --bauhaus-red: #e63946;
+  --bauhaus-yellow: #ffd100;
+  --bauhaus-blue: #2563eb;
+  --bauhaus-ink: #08090d;
+  --bauhaus-paper: #f4f0e6;
+  --bauhaus-rule: #353943;
+}
+
+html { scroll-behavior: smooth; }
+
+.bauhaus-app {
+  color: #f7f7f3;
+  background:
+    linear-gradient(90deg, transparent 0 7.95%, rgba(255,255,255,.035) 8%, transparent 8.05%),
+    linear-gradient(90deg, transparent 0 91.95%, rgba(255,255,255,.035) 92%, transparent 92.05%),
+    var(--bauhaus-ink);
+  isolation: isolate;
+}
+
+.bauhaus-app::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, #000, transparent 76%);
+}
+
+.bauhaus-nav {
+  position: fixed;
+  z-index: 45;
+  top: 16px;
+  left: 50%;
+  width: min(1180px, calc(100% - 32px));
+  transform: translateX(-50%);
+  min-height: 54px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 18px;
+  border: 1px solid var(--bauhaus-rule);
+  border-radius: 2px;
+  background: rgba(8,9,13,.92);
+  box-shadow: 5px 5px 0 rgba(0,0,0,.65);
+  backdrop-filter: blur(14px);
+  font-family: var(--font-space-grotesk), sans-serif;
+}
+
+.bauhaus-nav a { color: inherit; text-decoration: none; }
+.bauhaus-mark { font-weight: 800; letter-spacing: -.02em; }
+.bauhaus-mark span { color: var(--bauhaus-red); margin-right: 9px; }
+.bauhaus-nav nav { display: flex; gap: 26px; font-size: 10px; letter-spacing: .15em; font-weight: 700; }
+.bauhaus-nav nav a:hover, .bauhaus-nav nav a:focus-visible { color: var(--bauhaus-yellow); }
+.bauhaus-nav-status { justify-self: end; color: #00ff9d; font: 700 10px/1 var(--font-space-grotesk), sans-serif; letter-spacing: .12em; }
+
+.bauhaus-hero { padding-top: 110px !important; }
+.bauhaus-hero::before,
+.bauhaus-hero::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+.bauhaus-hero::before {
+  width: min(46vw, 590px);
+  aspect-ratio: 1;
+  border: clamp(38px, 6vw, 82px) solid var(--bauhaus-blue);
+  border-radius: 50%;
+  left: -14vw;
+  top: 10vh;
+  opacity: .28;
+}
+.bauhaus-hero::after {
+  width: 26vw;
+  height: 42vh;
+  right: -5vw;
+  bottom: 8vh;
+  background: var(--bauhaus-red);
+  transform: rotate(-12deg);
+  opacity: .18;
+}
+
+.bauhaus-hero-grid { width: min(1060px, 100%); }
+.bauhaus-kicker {
+  width: max-content;
+  margin: 0 auto 24px;
+  padding: 8px 12px;
+  color: #08090d;
+  background: var(--bauhaus-yellow);
+  font: 800 11px/1 var(--font-space-grotesk), sans-serif;
+  letter-spacing: .15em;
+}
+.bauhaus-hero .glitch-text { text-shadow: 6px 6px 0 var(--bauhaus-red); }
+.bauhaus-hero .glitch-text::before,
+.bauhaus-hero .glitch-text::after { display: none; }
+.bauhaus-hero .cta-glow {
+  animation: none !important;
+  background: var(--bauhaus-red) !important;
+  color: white !important;
+  border-radius: 2px !important;
+  box-shadow: 5px 5px 0 #000 !important;
+}
+
+.signal-hud {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: min(820px, 100%);
+  margin: 56px auto 0;
+  border: 1px solid var(--bauhaus-rule);
+  background: rgba(12,14,20,.92);
+  text-align: left;
+}
+.signal-hud > div { padding: 14px 16px; border-right: 1px solid var(--bauhaus-rule); }
+.signal-hud > div:last-child { border-right: 0; }
+.signal-hud span { display: block; margin-bottom: 7px; color: #777d89; font: 700 9px/1 var(--font-space-grotesk), sans-serif; letter-spacing: .14em; }
+.signal-hud strong { font: 750 12px/1.2 var(--font-space-grotesk), sans-serif; }
+.signal-hud .signal-live { color: #00ff9d; }
+
+.bauhaus-story,
+.bauhaus-matrix,
+.bauhaus-player { min-height: auto !important; padding-top: 112px !important; padding-bottom: 112px !important; border-top: 1px solid var(--bauhaus-rule); }
+.bauhaus-story > div { max-width: 880px !important; text-align: left !important; }
+.bauhaus-story .space-y-10 > div:nth-child(2) { position: relative; padding-left: 30px; border-left: 3px solid var(--bauhaus-red); }
+.bauhaus-story .space-y-6 > div { justify-content: flex-start !important; padding: 14px 0; border-bottom: 1px solid #232631; }
+
+.bauhaus-app .glass-card {
+  border: 1px solid var(--bauhaus-rule) !important;
+  border-radius: 2px !important;
+  background: rgba(14,16,22,.94) !important;
+  backdrop-filter: none !important;
+  box-shadow: 6px 6px 0 rgba(0,0,0,.72);
+}
+.bauhaus-app .glass-card:nth-child(1) { border-top: 5px solid var(--bauhaus-red) !important; }
+.bauhaus-app .glass-card:nth-child(2) { border-top: 5px solid var(--bauhaus-blue) !important; }
+.bauhaus-app .glass-card:nth-child(3) { border-top: 5px solid var(--bauhaus-yellow) !important; }
+
+.bauhaus-app button,
+.bauhaus-app a { outline-offset: 4px; }
+.bauhaus-app button:focus-visible,
+.bauhaus-app a:focus-visible { outline: 2px solid var(--bauhaus-yellow); }
+.bauhaus-app button[class*="rounded-full"],
+.bauhaus-app a[class*="rounded-full"] { border-radius: 2px !important; }
+.bauhaus-app button[class*="rounded-xl"],
+.bauhaus-app a[class*="rounded-xl"] { border-radius: 2px !important; }
+.bauhaus-app .chip-selected { box-shadow: 3px 3px 0 #000 !important; }
+.bauhaus-app .rounded-2xl { border-radius: 2px !important; }
+.bauhaus-app .rounded-xl { border-radius: 2px !important; }
+.bauhaus-app .bg-gradient-to-r,
+.bauhaus-app .bg-gradient-to-br { background-image: none !important; }
+
+.bauhaus-matrix h2 span { color: var(--bauhaus-yellow) !important; }
+.bauhaus-player .glass-card { border-top: 5px solid var(--bauhaus-blue) !important; }
+.bauhaus-footer { border-top: 8px solid var(--bauhaus-yellow); background: #0c0e13; }
+.cursor-glow, .orb-1, .orb-2, .orb-3, .particle { display: none !important; }
+
+@media (max-width: 760px) {
+  .bauhaus-nav { grid-template-columns: 1fr auto; }
+  .bauhaus-nav nav { display: none; }
+  .signal-hud { grid-template-columns: repeat(2, 1fr); }
+  .signal-hud > div:nth-child(2) { border-right: 0; }
+  .signal-hud > div:nth-child(-n+2) { border-bottom: 1px solid var(--bauhaus-rule); }
+  .bauhaus-hero::before { width: 76vw; left: -38vw; }
+  .bauhaus-hero .glitch-text { text-shadow: 3px 3px 0 var(--bauhaus-red); }
+}
+
