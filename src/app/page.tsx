@@ -190,7 +190,8 @@ function HeroSection() {
 
   return (
     <motion.section
-      className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden"
+      id="hero"
+      className="bauhaus-hero relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden"
       style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
     >
       {/* Share button - top right */}
@@ -219,7 +220,8 @@ function HeroSection() {
       </div>
 
       {/* Title */}
-      <div className="relative z-10 text-center">
+      <div className="bauhaus-hero-grid relative z-10 text-center">
+        <div className="bauhaus-kicker">01 / ACOUSTIC SYSTEM</div>
         <h1 className="glitch-text" data-text={title} style={{
           fontFamily: 'var(--font-syne)',
           fontSize: 'clamp(3rem, 10vw, 7rem)',
@@ -280,6 +282,13 @@ function HeroSection() {
             </span>
           </MagneticButton>
         </motion.div>
+
+        <div className="signal-hud" aria-label="Current signal">
+          <div><span>PERSONA</span><strong>KINETIC AVANT</strong></div>
+          <div><span>FREQUENCY</span><strong>432.00 HZ</strong></div>
+          <div><span>LATENCY</span><strong>14 MS</strong></div>
+          <div><span>STATUS</span><strong className="signal-live">LIVE</strong></div>
+        </div>
       </div>
 
       {/* Scroll indicator */}
@@ -381,7 +390,7 @@ function StorySection() {
     <section
       id="story-section"
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center px-4 py-32"
+      className="bauhaus-story relative min-h-screen flex items-center justify-center px-4 py-32"
     >
       {/* Connecting line at top */}
       <motion.div
@@ -502,7 +511,7 @@ function DimensionSelector({
   const allSelected = selections.mood && selections.genre && selections.theme
 
   return (
-    <section id="mixer-section" ref={sectionRef} className="relative min-h-screen flex items-center justify-center px-4 py-24">
+    <section id="mixer-section" ref={sectionRef} className="bauhaus-matrix relative min-h-screen flex items-center justify-center px-4 py-24">
       <div className="w-full max-w-5xl mx-auto">
         {/* Section header */}
         <motion.div
@@ -860,7 +869,7 @@ function ResultSection({
   }, [track])
 
   return (
-    <section id="result-section" ref={sectionRef} className="relative min-h-screen flex items-center justify-center px-4 py-24">
+    <section id="result-section" ref={sectionRef} className="bauhaus-player relative min-h-screen flex items-center justify-center px-4 py-24">
       <div className="w-full max-w-2xl mx-auto">
         {/* Section label */}
         <motion.div
@@ -1150,7 +1159,7 @@ function ResultSection({
 // ═══════════════════════════════════════════════════
 function FooterSection() {
   return (
-    <footer className="relative py-20 px-4 text-center">
+    <footer className="bauhaus-footer relative py-20 px-4 text-center">
       {/* Top gradient line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[rgba(0,255,157,0.2)] to-transparent" />
 
@@ -1351,7 +1360,7 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="relative min-h-screen">
+    <main className="bauhaus-app relative min-h-screen">
       {/* 3D Scene Background with Error Boundary */}
       {visualConfig && (
         <ThreeSceneErrorBoundary fallback={<ThreeSceneFallback />}>
@@ -1382,6 +1391,16 @@ export default function Home() {
       {/* Journey progress bar */}
       <JourneyProgress />
 
+      <header className="bauhaus-nav">
+        <a href="#hero" className="bauhaus-mark" aria-label="Music Mosh home"><span>■</span> MUSIC MOSH</a>
+        <nav aria-label="Journey sections">
+          <a href="#story-section">01 / DESCENT</a>
+          <a href="#mixer-section">02 / DIMENSIONS</a>
+          <a href="#result-section">03 / SIGNAL</a>
+        </nav>
+        <span className="bauhaus-nav-status">● SYSTEM LIVE</span>
+      </header>
+
       {/* Sections */}
       <HeroSection />
       <StorySection />
@@ -1403,3 +1422,4 @@ export default function Home() {
     </main>
   )
 }
+
